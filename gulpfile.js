@@ -13,7 +13,7 @@ gulp.task('jshint',function() {
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'))
 });
-//less编译
+//Less编译
 gulp.task('less',function() {
 	gulp.src('less/*.less')
 		.pipe(less())
