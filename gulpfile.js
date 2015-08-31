@@ -1,7 +1,9 @@
+'use strict';
 //获取gulp
-var gulp = require('gulp');
+var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
-	less = require('gulp-less'),
+	sass = require('gulp-sass'),
+	sourcemaps = require('gulp-sourcemaps'),
 	concat = require('gulp-concat'),
 	minjs = require('gulp-uglify'),
 	mincss = require('gulp-minify-css'),
@@ -13,12 +15,19 @@ gulp.task('jshint',function() {
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'))
 });
-//Less编译
-gulp.task('less',function() {
-	gulp.src('less/*.less')
-		.pipe(less())
-		.pipe(gulp.dest('css'))
+// sass编译
+// outputStyle:nested/expanded/compact/compressed
+gulp.task('sass', function () {
+ 	gulp.src('sass/*.scss')
+		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+		.pipe(gulp.dest('css'));
 });
+// sass调试
+// gulp.src('sass/*.scss')
+// 	.pipe(sourcemaps.init())
+//     .pipe(sass())
+// 	.pipe(sourcemaps.write())
+// 	.pipe(gulp.dest('css'));
 //Css合并&压缩
 gulp.task('mincss',function() {
 	gulp.src('css/*.css')
@@ -47,12 +56,13 @@ gulp.task('minimg',function() {
 });
 //监视变化
 gulp.task('auto', function () {
-    gulp.watch(['less/*.less','js/*.js','css/*.css','images/*.*'], function(event) {
+    gulp.watch(['sass/*.scss','js/*.js','css/*.css','images/*.*'], function(event) {
     	console.info(event.path);
+
     	// changed、added、deleted、renamed
     	console.info(event.type);
     });
-    gulp.watch('less/*.less',['less','mincss']);
+    gulp.watch('sass/*.scss',['sass','mincss']);
     gulp.watch('css/*.css',['mincss']);
     gulp.watch('js/*.js',['jshint','minjs']);
     gulp.watch('images/*.*',['minimg']);
