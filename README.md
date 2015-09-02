@@ -1,5 +1,7 @@
 # mygulp
+    sudo npm install -g nrm
     sudo npm install -g gulp
+    sudo npm install -g browser-sync
 
     sudo npm install --save-dev gulp
 
