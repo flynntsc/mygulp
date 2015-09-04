@@ -5,67 +5,88 @@ var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	sourcemaps = require('gulp-sourcemaps'),
 	concat = require('gulp-concat'),
-	minjs = require('gulp-uglify'),
-	mincss = require('gulp-minify-css'),
+	minJs = require('gulp-uglify'),
+	minCss = require('gulp-minify-css'),
 	minImg = require('gulp-imagemin'),
-	rename = require('gulp-rename');
-//Js语法检查
-gulp.task('jshint',function() {
-	gulp.src('js/*.js')
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'))
-});
-// sass编译
-// outputStyle:nested/expanded/compact/compressed
-gulp.task('sass', function () {
- 	gulp.src('sass/*.scss')
+	rename = require('gulp-rename'),
+	browserSync = require('browser-sync').create(),
+	path = {
+		HTML: 'html/*.html',
+		SASS: 'sass/*.scss',
+		CSS: 'css/*.css',
+		IMG: 'images/*',
+		JS: 'js/*.js'
+	};
+
+// sass检验&编译
+gulp.task('fnSass', function () {
+ 	gulp.src(path.SASS)
+	 	.pipe(sourcemaps.init())
+
+	// outputStyle:nested/expanded/compact/compressed
 		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
-		.pipe(gulp.dest('css'));
+	 	.pipe(sourcemaps.write())
+		.pipe(gulp.dest('css'))
+        // .pipe(browserSync.stream())
 });
-// sass调试
-// gulp.src('sass/*.scss')
-// 	.pipe(sourcemaps.init())
-//     .pipe(sass())
-// 	.pipe(sourcemaps.write())
-// 	.pipe(gulp.dest('css'));
+
 //Css合并&压缩
-gulp.task('mincss',function() {
-	gulp.src('css/*.css')
+gulp.task('fnCss',function() {
+	gulp.src(path.CSS)
 		.pipe(concat('all.css'))
 		.pipe(gulp.dest('dist/css'))
-		.pipe(mincss())
+		.pipe(minCss())
 		.pipe(rename('all.min.css'))
 		.pipe(gulp.dest('dist/css'))
+        // .pipe(browserSync.stream())
 });
-//Js合并&压缩
-gulp.task('minjs',function() {
-	gulp.src('js/*.js')
+// 被迫独立拆分css自动刷新任务
+gulp.task('fnDst',function() {
+	gulp.src('dist/css/*.css')
+		.pipe(browserSync.stream())
+});
+
+//Js检验&合并&压缩
+gulp.task('fnJs',function() {
+	gulp.src(path.JS)
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'))
 		.pipe(concat('all.js'))
 		.pipe(gulp.dest('dist/js'))
-		.pipe(minjs())
+		.pipe(minJs())
 		.pipe(rename('all.min.js'))
 		.pipe(gulp.dest('dist/js'))
+        .pipe(browserSync.stream())
 });
-//图片压缩
-gulp.task('minimg',function() {
-	gulp.src('images/*.*')
+
+//处理图片
+gulp.task('fnImg',function() {
+	gulp.src(path.IMG)
 		.pipe(minImg({
 			progressive: true
 		}))
 		.pipe(gulp.dest('dist/images'))
 });
-//监视变化
-gulp.task('auto', function () {
-    gulp.watch(['sass/*.scss','js/*.js','css/*.css','images/*.*'], function(event) {
-    	console.info(event.path);
 
-    	// changed、added、deleted、renamed
-    	console.info(event.type);
+//监视变化
+gulp.task('fnAuto',function() {
+	browserSync.init({
+        server: './'
     });
-    gulp.watch('sass/*.scss',['sass','mincss']);
-    gulp.watch('css/*.css',['mincss']);
-    gulp.watch('js/*.js',['jshint','minjs']);
-    gulp.watch('images/*.*',['minimg']);
+
+    // 打印更改路径与事件
+    // gulp.watch([path.HTML,path.JS,path.SASS,path.CSS,path.IMG], function(event) {
+    // 	console.info(event.path);
+
+    // 	// changed、added、deleted、renamed
+    // 	console.info(event.type);
+    // });
+
+    gulp.watch(path.SASS,['fnSass']);
+    gulp.watch(path.CSS,['fnCss']);
+    gulp.watch(path.JS,['fnJs']);
+    gulp.watch(path.IMG,['fnImg']);
+    gulp.watch('dist/css/*.css',['fnDst']);
+    gulp.watch(path.HTML).on('change',browserSync.reload);
 });
-gulp.task('default',['auto']);
-	
+gulp.task('default',['fnAuto']);
