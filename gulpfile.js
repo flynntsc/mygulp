@@ -23,7 +23,7 @@ gulp.task('fnSass', function () {
  	gulp.src(path.SASS)
 	 	.pipe(sourcemaps.init())
 
-	// outputStyle:nested/expanded/compact/compressed
+		// outputStyle:nested/expanded/compact/compressed
 		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
 	 	.pipe(sourcemaps.write())
 		.pipe(gulp.dest('css'))
