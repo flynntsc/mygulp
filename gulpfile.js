@@ -11,11 +11,11 @@ var gulp = require('gulp'),
 	rename = require('gulp-rename'),
 	browserSync = require('browser-sync').create(),
 	path = {
-		HTML: 'html/*.html',
-		SASS: 'sass/*.scss',
-		CSS: 'css/*.css',
-		IMG: 'images/*',
-		JS: 'js/*.js'
+		HTML: 'html/**/*.html',
+		SASS: 'sass/**/*.scss',
+		CSS: 'css/**/*.css',
+		IMG: 'images/**/*',
+		JS: 'js/**/*.js'
 	};
 
 // sass检验&编译
