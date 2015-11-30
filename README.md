@@ -10,7 +10,7 @@ sudo npm install -g browser-sync
 
 sudo npm install --save-dev
 
-sudo npm install --save-dev gulp browser-sync node-sass
+sudo npm install --save-dev gulp browser-sync
 ```
 
 ## Update
@@ -39,8 +39,7 @@ sudo npm update -g
   - [gulp-filter](https://github.com/sindresorhus/gulp-filter) 过滤文件
 
 - CSS
-  - [node-sass](https://www.npmjs.com/package/node-sass) gulp-sass所需
-  - [gulp-sass](https://www.npmjs.com/package/gulp-sass) 编译scss,依赖node-sass
+  - [gulp-sass](https://www.npmjs.com/package/gulp-sass) 编译scss
   - [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) 自动加前缀
   - [gulp-minify-css](https://www.npmjs.com/package/gulp-minify-css) 压缩
 
