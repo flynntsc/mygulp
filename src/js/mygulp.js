@@ -5,3 +5,5 @@ obj.addEventListener('click',function(event) {
 },false);
 let c1 = '2';
 console.info(c1);
+// debugger;
+alert('alert');

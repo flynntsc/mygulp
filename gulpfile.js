@@ -25,8 +25,8 @@ var gulp = require('gulp'),
 
 // sass编译css
 gulp.task('fnSass', function () {
- 	gulp.src(path.SASS)
- 		// 编译scss
+	gulp.src(path.SASS)
+		// 编译scss
 		// outputStyle:nested/expanded/compact/compressed
 		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
 		// 加前缀
@@ -55,15 +55,16 @@ gulp.task('fnJs',function() {
 		// .pipe(jshint())
 		// .pipe(jshint.reporter('default'))
         // 输出
-		.pipe(gulp.dest('dist/js'))
+		// .pipe(gulp.dest('dist/js'))
 		// 压缩
-		.pipe(minJs())
+		// .pipe(minJs())
 		// 重命名
-		.pipe(rename(function(path) {
-			path.basename += '.min';
-			// path.extname = '.css';
-		}))
-		.pipe(gulp.dest('dist/js'))
+		// .pipe(rename(function(path) {
+		// 	path.basename += '.min';
+		// 	// path.extname = '.css';
+		// }))
+        // 输出
+		.pipe(gulp.dest('dist/js'));
 });
 
 //处理图片
@@ -72,7 +73,7 @@ gulp.task('fnImg',function() {
 		.pipe(minImg({
 			progressive: true
 		}))
-		.pipe(gulp.dest('dist/images'))
+		.pipe(gulp.dest('dist/images'));
 });
 
 //监视变化
@@ -88,11 +89,9 @@ gulp.task('fnAuto',function() {
     // });
 
     gulp.watch(path.SASS,['fnSass']);
-    // gulp.watch(path.CSS,['fnCss']);
     gulp.watch(path.JS,['fnJs']);
     // gulp.watch(path.IMG,['fnImg']);
-    // gulp.watch('dist/css/*.css',['fnDst']);
-    gulp.watch(path.JS).on('change',browserSync.reload);
-    gulp.watch(path.HTML).on('change',browserSync.reload);
+    // gulp.watch().on('change',browserSync.reload);
+    gulp.watch([path.HTML,path.JS]).on('change',browserSync.reload);
 });
 gulp.task('default',['fnAuto']);
