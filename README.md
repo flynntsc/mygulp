@@ -32,6 +32,7 @@ sudo npm update -g
   - [browser-sync](https://www.npmjs.com/package/browser-sync) 静态文件服务器+浏览器自动刷新
 
 - 通用
+  - [gulp-load-plugins](https://www.npmjs.com/package/gulp-load-plugins) 加载管理
   - [gulp-nodemon](https://www.npmjs.com/package/gulp-nodemon) 自动启动/重启node程序
   - [gulp-clean](https://github.com/peter-vilja/gulp-clean)  删除文件和目录
   - [gulp-concat](https://github.com/wearefractal/gulp-concat) 合并文件
@@ -39,7 +40,7 @@ sudo npm update -g
   - [gulp-filter](https://github.com/sindresorhus/gulp-filter) 过滤文件
 
 - CSS
-  - [gulp-sass](https://www.npmjs.com/package/gulp-sass) 编译scss
+  - [gulp-sass](https://www.npmjs.com/package/gulp-sass) 编译sass
   - [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) 自动加前缀
   - [gulp-minify-css](https://www.npmjs.com/package/gulp-minify-css) 压缩
 

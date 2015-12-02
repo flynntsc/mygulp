@@ -1,20 +1,12 @@
-"use strict";
+'use strict';
 //获取gulp
 var gulp = require('gulp'),
-// CSS
-	sass = require('gulp-sass'),
-	minCss = require('gulp-minify-css'),
-	autoprefixer = require('gulp-autoprefixer'),
-// JS
-	minJs = require('gulp-uglify'),
-// IMG
-	// minImg = require('gulp-imagemin'),
-
-// 通用
 	browserSync = require('browser-sync').create(),
-	rename = require('gulp-rename'),
-	// sourcemaps = require('gulp-sourcemaps'),
-	// concat = require('gulp-concat'),
+	plugins = require('gulp-load-plugins')({
+		rename: {
+			'gulp-minify-css': 'mincss'
+		}
+	}),
 	path = {
 		HTML: 'html/**/*.html',
 		SASS: 'src/sass/*.scss',
@@ -28,18 +20,15 @@ gulp.task('fnSass', function () {
 	gulp.src(path.SASS)
 		// 编译scss
 		// outputStyle:nested/expanded/compact/compressed
-		.pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+		.pipe(plugins.sass({outputStyle: 'expanded'}).on('error', plugins.sass.logError))
 		// 加前缀
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions'],
-            cascade: false
-        }))
+        .pipe(plugins.autoprefixer({browsers: ['last 2 versions'],cascade: false}))
         // 输出
 		.pipe(gulp.dest('dist/css'))
 		// 压缩
-		.pipe(minCss())
+		.pipe(plugins.mincss())
 		// 重命名
-		.pipe(rename(function(path) {
+		.pipe(plugins.rename(function(path) {
 			path.basename += '.min';
 			// path.extname = '.css';
 		}))
@@ -49,20 +38,21 @@ gulp.task('fnSass', function () {
         .pipe(browserSync.stream());
 });
 
-//Js检验&合并&压缩
+//Js编译
 gulp.task('fnJs',function() {
 	gulp.src(path.JS)
-		// .pipe(jshint())
-		// .pipe(jshint.reporter('default'))
+		.pipe(plugins.babel({
+			presets: ['es2015']
+		}))
         // 输出
 		// .pipe(gulp.dest('dist/js'))
 		// 压缩
-		// .pipe(minJs())
+		// .pipe(plugins.uglify())
 		// 重命名
-		// .pipe(rename(function(path) {
-		// 	path.basename += '.min';
-		// 	// path.extname = '.css';
-		// }))
+		.pipe(plugins.rename(function(path) {
+			path.basename += '.min';
+			// path.extname = '.css';
+		}))
         // 输出
 		.pipe(gulp.dest('dist/js'));
 });
@@ -70,7 +60,7 @@ gulp.task('fnJs',function() {
 //处理图片
 gulp.task('fnImg',function() {
 	gulp.src(path.IMG)
-		.pipe(minImg({
+		.pipe(plugins.imagemin({
 			progressive: true
 		}))
 		.pipe(gulp.dest('dist/images'));
@@ -78,7 +68,9 @@ gulp.task('fnImg',function() {
 
 //监视变化
 gulp.task('fnAuto',function() {
-	browserSync.init({server: './'});
+	browserSync.init({
+		server: './'
+	});
 
     // 打印更改路径与事件
     // gulp.watch([path.HTML,path.JS,path.SASS,path.CSS,path.IMG], function(event) {
@@ -88,10 +80,10 @@ gulp.task('fnAuto',function() {
     // 	console.info(event.type);
     // });
 
-    gulp.watch(path.SASS,['fnSass']);
-    gulp.watch(path.JS,['fnJs']);
+	gulp.watch(path.SASS,['fnSass']);
+	gulp.watch(path.JS,['fnJs']);
     // gulp.watch(path.IMG,['fnImg']);
-    // gulp.watch().on('change',browserSync.reload);
-    gulp.watch([path.HTML,path.JS]).on('change',browserSync.reload);
+	gulp.watch([path.HTML,path.JS]).on('change',browserSync.reload);
 });
+// 默认运行任务
 gulp.task('default',['fnAuto']);
