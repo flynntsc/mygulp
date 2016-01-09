@@ -1,8 +1,4 @@
-let foo = 'outer';
-let f = x => foo;
+'use strict';
 
-!function bar(func = f) {
-	let foo = 'inner';
-	console.log(func()); // outer
-}();
-alert('tan');
+import * as m from './a.js';
+m.even(10);
