@@ -7,7 +7,7 @@ var gulp = require('gulp'),
 			'gulp-minify-css': 'mincss'
 		}
 	}),
-	PATH = {
+	path = {
 		Html: 'html/**/*.html',
 		Sass: 'src/sass/*.scss',
 		CssTo: 'dist/css',
@@ -19,14 +19,14 @@ var gulp = require('gulp'),
 
 // sass编译css
 gulp.task('fnSass', function() {
-	gulp.src(PATH.Sass)
+	return gulp.src(path.Sass)
 		// 编译scss
 		// outputStyle:nested/expanded/compact/compressed
 		.pipe(plugins.sass({outputStyle: 'expanded'}).on('error', plugins.sass.logError))
 		// 加前缀
         .pipe(plugins.autoprefixer({browsers: ['last 2 versions'],cascade: false}))
         // 输出
-		.pipe(gulp.dest(PATH.CssTo))
+		.pipe(gulp.dest(path.CssTo))
 		// 压缩
 		.pipe(plugins.mincss())
 		// 重命名
@@ -35,37 +35,37 @@ gulp.task('fnSass', function() {
 			// path.extname = '.css';
 		}))
 		// 再输出
-		.pipe(gulp.dest(PATH.CssTo))
+		.pipe(gulp.dest(path.CssTo))
 		// 刷新
         .pipe(browserSync.stream());
 });
 
 //Js编译
 gulp.task('fnJs',function() {
-	gulp.src(PATH.Js)
+	gulp.src(path.Js)
 		.pipe(plugins.babel({
 			presets: ['es2015']
 		}))
         // 输出
-		// .pipe(gulp.dest(PATH.JsTo)
+		// .pipe(gulp.dest(path.JsTo)
 		// 压缩
 		// .pipe(plugins.uglify())
 		// 重命名
-		.pipe(plugins.rename(function(PATH) {
-			PATH.basename += '.min';
-			// PATH.extname = '.css';
+		.pipe(plugins.rename(function(path) {
+			path.basename += '.min';
+			// path.extname = '.css';
 		}))
         // 输出
-		.pipe(gulp.dest(PATH.JsTo));
+		.pipe(gulp.dest(path.JsTo));
 });
 
 //处理图片
 gulp.task('fnImg',function() {
-	gulp.src(PATH.Img)
+	gulp.src(path.Img)
 		.pipe(plugins.imagemin({
 			progressive: true
 		}))
-		.pipe(gulp.dest(PATH.ImgTo));
+		.pipe(gulp.dest(path.ImgTo));
 });
 
 //监视变化
@@ -75,17 +75,17 @@ gulp.task('fnAuto',function() {
 	});
 
     // 打印更改路径与事件
-    // gulp.watch([PATH.Html,PATH.Js,PATH.Sass,PATH.Img], function(event) {
-    // 	console.info(event.PATH);
+    // gulp.watch([path.Html,path.Js,path.Sass,path.Img], function(event) {
+    // 	console.info(event.path);
 
     // 	// changed、added、deleted、renamed
     // 	console.info(event.type);
     // });
 
-	gulp.watch(PATH.Sass,['fnSass']);
-	gulp.watch(PATH.Js,['fnJs']);
-    // gulp.watch(PATH.Img,['fnImg']);
-	gulp.watch([PATH.Html,PATH.Js]).on('change',browserSync.reload);
+	gulp.watch(path.Sass,['fnSass']);
+	gulp.watch(path.Js,['fnJs']);
+    // gulp.watch(path.Img,['fnImg']);
+	gulp.watch([path.Html,path.Js]).on('change',browserSync.reload);
 });
 // 默认运行任务
 gulp.task('default',['fnAuto']);
