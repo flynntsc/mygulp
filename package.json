@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "``` npm init",
   "main": "gulpfile.js",
+  "babel": {
+    "presets": ["es2015"]
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

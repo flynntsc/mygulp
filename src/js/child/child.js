@@ -1,1 +1,1 @@
-console.info('hello world');
+// export default 100;

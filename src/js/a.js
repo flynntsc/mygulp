@@ -1,6 +1,5 @@
-import { odd } from './odd'
-export var counter = 0;
-export function even(n) {
-  counter++;
-  return n == 0 || odd(n - 1);
-}
+// import num from './child/child.js';
+function fn(n) {
+	return n + n;
+};
+export default fn;
