@@ -1,7 +1,8 @@
 'use strict';
 //获取gulp
-var gulp = require('gulp'),
+const gulp = require('gulp'),
 	browserSync = require('browser-sync').create(),
+	del = require('del'),
 	plugins = require('gulp-load-plugins')({
 		rename: {
 			'gulp-minify-css': 'mincss'
@@ -14,11 +15,27 @@ var gulp = require('gulp'),
 		Js: 'src/js/**/*.js',
 		JsTo: 'dist/js',
 		Img: 'src/images/**/*',
-		ImgTo: 'dist/images'
+		ImgTo: 'dist/images',
+	},
+	Config = {
+		isDelFirst: 1
 	};
+// Fn
+function delFiles(dir) {
+	if(Config.isDelFirst) {
+		del([dir+'/**/*']).then(files => {
+			for(let v of files) {
+				console.log(`Delete ${v}`);
+			}
+		});
+	}
+}
+
 
 // sass编译css
 gulp.task('fnSass', function() {
+	// 清空
+	delFiles(Path.CssTo);
 	return gulp.src(Path.Sass)
 		// 编译scss
 		// outputStyle:nested/expanded/compact/compressed
@@ -42,14 +59,16 @@ gulp.task('fnSass', function() {
 
 //Js编译
 gulp.task('fnJs',function() {
+	// 清空
+	delFiles(Path.JsTo);
 	gulp.src(Path.Js)
 		.pipe(plugins.babel({
 			presets: ['es2015']
 		}))
         // 输出
-		// .pipe(gulp.dest(Path.JsTo)
+		.pipe(gulp.dest(Path.JsTo))
 		// 压缩
-		// .pipe(plugins.uglify())
+		.pipe(plugins.uglify())
 		// 重命名
 		.pipe(plugins.rename(function(path) {
 			path.basename += '.min';
