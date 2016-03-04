@@ -37,6 +37,7 @@ gulp.task('fnSass', function() {
 	// 清空
 	delFiles(Path.CssTo);
 	return gulp.src(Path.Sass)
+		// .pipe(plugins.plumber())
 		// 编译scss
 		// outputStyle:nested/expanded/compact/compressed
 		.pipe(plugins.sass({outputStyle: 'expanded'}).on('error', plugins.sass.logError))
@@ -62,6 +63,7 @@ gulp.task('fnJs',function() {
 	// 清空
 	delFiles(Path.JsTo);
 	gulp.src(Path.Js)
+		.pipe(plugins.plumber())
 		.pipe(plugins.babel({
 			presets: ['es2015']
 		}))
