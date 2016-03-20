@@ -1,31 +1,37 @@
-## Install
+# NPM
+
+
+- npm cmd [option]
+- npm -h
+ - npm help cmd 查看某个命令详细介绍，如npm help install/update...
+ - npm cmd -h 快速查看可搭配属性
+- npm init
+ - npm init -y 直接新建默认package.json文件
+- npm install/uninstall [-global/-g/--save/-S/-dev/-D]
+ - npm i/un []
+- npm update
+ - npm info/view/v react 超多版本详细信息
+ - npm dist-tags ls react 版本更新简洁近况
+ - npm outdated 检测当前安装npm包是否有更新
+- npm publish 发布
+ - x.y.z 版本号
+ - npm version <update_type> 更新版本号
 
 ```
-npm init 
-
-sudo npm install -g nrm
-sudo npm install -g n
-sudo npm install -g gulp
-sudo npm install -g browser-sync
-
-sudo npm install --save-dev
-
-sudo npm install --save-dev gulp browser-sync
+npm version patch => z+1
+npm version minor => y+1 && z=0
+npm version major => x+1 && y=0 && z=0
 ```
 
-## Update
-```
-sudo n latest
-sudo npm update -g
-```
+- **npm dedupe** 整理包依赖
 
-## 资料
+# 资料
 - [NPM](https://www.npmjs.com/)
 - [Gulp官网](http://gulpjs.com/)
 - [Gulp中文网](http://www.gulpjs.com.cn/)
 - [豪情gulp整理](https://github.com/jsfront/use-gulp)
 
-## 插件
+# 插件
 - 全局
   - [NRM](https://www.npmjs.com/package/nrm) 线路切换
   - [N](https://www.npmjs.com/package/n) Node版本控制
