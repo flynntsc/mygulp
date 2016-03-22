@@ -34,7 +34,7 @@ npm version major => x+1 && y=0 && z=0
 # 插件
 - 全局
   - [NRM](https://www.npmjs.com/package/nrm) 线路切换
-  - [N](https://www.npmjs.com/package/n) Node版本控制
+  - [N](https://www.npmjs.com/package/n) Node版本控制或nvm/nvm-windows
   - [browser-sync](https://www.npmjs.com/package/browser-sync) 静态文件服务器+浏览器自动刷新
 
 - 通用

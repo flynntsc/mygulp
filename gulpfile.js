@@ -65,7 +65,7 @@ gulp.task('fnJs',function() {
 	gulp.src(Path.Js)
 		.pipe(plugins.plumber())
 		.pipe(plugins.babel({
-			presets: ['es2015']
+			presets: ['es2015','stage-0']
 		}))
         // 输出
 		.pipe(gulp.dest(Path.JsTo))
