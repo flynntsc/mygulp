@@ -9,6 +9,7 @@
  - npm init -y 直接新建默认package.json文件
 - npm install/uninstall [-global/-g/--save/-S/-dev/-D]
  - npm i/un []
+ - npm i name@1.8.2
 - npm update
  - npm info/view/v react 超多版本详细信息
  - npm dist-tags ls react 版本更新简洁近况
@@ -23,7 +24,13 @@ npm version minor => y+1 && z=0
 npm version major => x+1 && y=0 && z=0
 ```
 
+- npm list -g --depth=0
+
+ - --depth=0 控制路径深度
+
 - **npm dedupe** 整理包依赖
+- ls ~/.npm 查看缓存区
+ - npm cache clean 删除
 
 # 资料
 - [NPM](https://www.npmjs.com/)
