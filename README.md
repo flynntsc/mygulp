@@ -36,6 +36,7 @@ npm version major => x+1 && y=0 && z=0
 - [NPM](https://www.npmjs.com/)
 - [Gulp官网](http://gulpjs.com/)
 - [Gulp中文网](http://www.gulpjs.com.cn/)
+- [Gulp 4 入门指南](https://github.com/cssmagic/blog/issues/62)
 - [豪情gulp整理](https://github.com/jsfront/use-gulp)
 
 # 插件
