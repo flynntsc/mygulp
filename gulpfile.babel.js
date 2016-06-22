@@ -8,7 +8,7 @@ import glp from 'gulp-load-plugins';
 const browserSync = bs.create(),
     plugins = glp({
         rename: {
-            'gulp-minify-css': 'mincss'
+            'gulp-clean-css': 'mincss'
         }
     }),
     Path = {
@@ -21,7 +21,7 @@ const browserSync = bs.create(),
         ImgTo: 'dist/images',
     },
     Config = {
-        isDelFirst: 1
+        isDelFirst: !!1
     };
 
 // Fn

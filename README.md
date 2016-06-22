@@ -37,7 +37,7 @@ npm version major => x+1 && y=0 && z=0
 - [Gulp官网](http://gulpjs.com/)
 - [Gulp中文网](http://www.gulpjs.com.cn/)
 - [Gulp 4 入门指南](https://github.com/cssmagic/blog/issues/62)
-- [豪情gulp整理](https://github.com/jsfront/use-gulp)
+- [是时候升级你的gulp到4.0了](http://www.alloyteam.com/2015/07/update-your-gulp/)
 
 # 插件
 - 全局
@@ -57,7 +57,7 @@ npm version major => x+1 && y=0 && z=0
 - CSS
   - [gulp-sass](https://www.npmjs.com/package/gulp-sass) 编译sass
   - [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) 自动加前缀
-  - [gulp-minify-css](https://www.npmjs.com/package/gulp-minify-css) 压缩
+  - [gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css) 压缩
 
 - JS 
   - [gulp-babel](https://www.npmjs.com/package/gulp-babel) ES6编译
