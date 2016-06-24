@@ -1,121 +1,156 @@
 'use strict';
-//获取gulp
-import gulp from 'gulp';
-import del from 'del';
-import bs from 'browser-sync';
-import glp from 'gulp-load-plugins';
 
-const browserSync = bs.create(),
-    plugins = glp({
-        rename: {
-            'gulp-clean-css': 'mincss'
-        }
-    }),
-    Path = {
-        Html: 'html/**/*.html',
-        Sass: 'src/sass/*.scss',
-        CssTo: 'dist/css',
-        Js: 'src/js/**/*.js',
-        JsTo: 'dist/js',
-        Img: 'src/images/**/*',
-        ImgTo: 'dist/images',
-    },
-    Config = {
-        isDelFirst: !!1
-    };
+// Import
+import gulp from 'gulp'
+import del from 'del'
+import Bs from 'browser-sync'
+import Glp from 'gulp-load-plugins'
 
-// Fn
-function delFiles(dir) {
-    if (Config.isDelFirst) {
-        del([dir + '/**/*']).then(files => {
-            for (let v of files) {
-                console.log(`Delete ${v}`);
-            }
-        });
+// Config
+const browserSync = Bs.create()
+const reload = browserSync.reload
+const Pi = Glp({
+    rename: {
+        'gulp-html-replace': 'htmlReplace',
+        'gulp-clean-css': 'cleanCss',
     }
+})
+const Paths = {
+    dest: 'dist',
+    jsTest: ['src/**/*.js', 'gulpfile.babel.js'],
+    views: {
+        src: 'src/views/**/*.html',
+        dest: 'dist/views/',
+    },
+    styles: {
+        css: 'src/styles/*.css',
+        less: 'src/styles/*.less',
+        sass: 'src/styles/*.scss',
+        dest: 'dist/styles/',
+    },
+    scripts: {
+        src: 'src/scripts/**/*.js',
+        dest: 'dist/scripts/',
+    },
+    images: {
+        src: 'src/images/**/*.{jpg,jpeg,png,svg}',
+        dest: 'dist/images/',
+    },
 }
 
-// sass编译css
-gulp.task('fnSass', () => {
-    // 清空
-    delFiles(Path.CssTo);
-    return gulp.src(Path.Sass)
-        // .pipe(plugins.plumber())
-        // 编译scss
-        // outputStyle:nested/expanded/compact/compressed
-        .pipe(plugins.sass({
-            outputStyle: 'expanded'
-        }).on('error', plugins.sass.logError))
-        // 加前缀
-        .pipe(plugins.autoprefixer({
+// Fn
+const clean = () => del(Paths.dest).then(files => console.info(`Delete ${files}`))
+export { clean }
+
+
+
+// Views
+export function views() {
+    return gulp.src(Paths.views.src)
+        // .pipe(Pi.htmlReplace({
+        //     'css': '../../styles/all.min.css',
+        //     'js': '../../scripts/all.min.js',
+        // }))
+        .pipe(gulp.dest(Paths.views.dest))
+}
+
+// Less
+export function less() {
+    return gulp.src(Paths.styles.less)
+        .pipe(Pi.less())
+        .pipe(Pi.autoprefixer({
             browsers: ['last 2 versions'],
-            cascade: false
+            cascade: false,
         }))
-        // 输出
-        .pipe(gulp.dest(Path.CssTo))
-        // 压缩
-        .pipe(plugins.mincss())
-        // 重命名
-        .pipe(plugins.rename(function(path) {
-            path.basename += '.min';
-            // path.extname = '.css';
+        .pipe(Pi.changed(Paths.dest))
+        .pipe(gulp.dest(Paths.styles.dest))
+        .pipe(Pi.cleanCss())
+        // .pipe(Pi.concat('all.min.css'))
+        .pipe(Pi.rename(path => path.basename += '.min'))
+        .pipe(gulp.dest(Paths.styles.dest))
+        .pipe(reload({ stream: true }))
+}
+// Sass
+export function sass() {
+    return gulp.src(Paths.styles.sass)
+        .pipe(Pi.sass({
+            outputStyle: 'expanded',
+            // onerror?
         }))
-        // 再输出
-        .pipe(gulp.dest(Path.CssTo))
-        // 刷新
-        .pipe(browserSync.stream());
-});
+        .pipe(Pi.changed(Paths.dest))
+        .pipe(Pi.autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false,
+        }))
+        .pipe(Pi.changed(Paths.dest))
+        .pipe(gulp.dest(Paths.styles.dest))
+        .pipe(Pi.cleanCss())
+        // .pipe(Pi.concat('all.min.css'))
+        .pipe(Pi.rename(path => path.basename += '.min'))
+        .pipe(gulp.dest(Paths.styles.dest))
+        .pipe(reload({ stream: true }))
+}
 
-//Js编译
-gulp.task('fnJs', () => {
-    // 清空
-    delFiles(Path.JsTo);
-    gulp.src(Path.Js)
-        .pipe(plugins.plumber())
-        .pipe(plugins.babel({
-            presets: ['es2015', 'stage-0'],
-            plugins: ['transform-es2015-modules-umd', 'add-module-exports']
+// Js
+export function scripts() {
+    return gulp.src(Paths.scripts.src, { sourcemaps: true })
+        .pipe(Pi.plumber())
+        .pipe(Pi.sourcemaps.init())
+        .pipe(Pi.babel())
+        .pipe(gulp.dest(Paths.scripts.dest))
+        .pipe(Pi.uglify())
+        // .pipe(Pi.concat('all.min.js'))
+        .pipe(Pi.rename(path => path.basename += '.min'))
+        .pipe(Pi.sourcemaps.write())
+        .pipe(gulp.dest(Paths.scripts.dest))
+}
+// Eslint
+export function eslint() {
+    return gulp.src(Paths.jsTest)
+        .pipe(Pi.changed(Paths.dest))
+        .pipe(Pi.eslint({
+            envs: ['browser', 'ES6', 'node'],
+            // rules: {
+            //     curly: [2, 'multi-line'],
+            //     indent: [2,2],
+            // },
         }))
-    // 输出
-    .pipe(gulp.dest(Path.JsTo))
-    // 压缩
-    .pipe(plugins.uglify())
-    // 重命名
-    .pipe(plugins.rename(function(path) {
-        path.basename += '.min';
-        // path.extname = '.css';
-    }))
-    // 输出
-    .pipe(gulp.dest(Path.JsTo));
-});
+        .pipe(Pi.eslint.format())
+}
 
-//处理图片
-gulp.task('fnImg', () => {
-    gulp.src(Path.Img)
-        .pipe(plugins.imagemin({
-            progressive: true
-        }))
-        .pipe(gulp.dest(Path.ImgTo));
-});
+// Img
+export function images() {
+    return gulp.src(Paths.images.src, { since: gulp.lastRun('images') })
+        .pipe(Pi.imagemin({ optimizationLevel: 5 }))
+        .pipe(gulp.dest(Paths.images.dest));
+}
 
-//监视变化
-gulp.task('fnAuto', () => {
+// Server
+export function server(cb) {
     browserSync.init({
-        server: './'
-    });
+        server: {
+            baseDir: './dist/'
+        }
+    })
+    cb();
+}
 
-    // 打印更改路径与事件
-    // gulp.watch([Path.Html,Path.Js,Path.Sass,Path.Img], function(event) {
-    // 	console.info(event.Path);
+// Watch
+export function watch() {
+    gulp.watch(Paths.views.src, gulp.series(views, reload))
+    gulp.watch(Paths.styles.css, gulp.series(sass))
+    gulp.watch(Paths.styles.less, less)
+    gulp.watch(Paths.styles.sass, sass)
+    gulp.watch(Paths.scripts.src, gulp.series(scripts, reload))
+    gulp.watch(Paths.images.src, gulp.series(images, reload))
+}
 
-    // 	// changed、added、deleted、renamed
-    // 	console.info(event.type);
-    // });
+// Tasks
+const build = gulp.series(clean, gulp.parallel(views, sass, scripts, images))
+export { build }
 
-    gulp.watch(Path.Sass, ['fnSass']);
-    gulp.watch(Path.Js, ['fnJs']);
-    // gulp.watch(Path.Img,['fnImg']);
-    gulp.watch([Path.Html, Path.Js]).on('change', browserSync.reload);
-});
-// 默认运行任务
-gulp.task('default', ['fnAuto']);
+const dev = gulp.series(build, server, watch)
+export { dev }
+
+// Default
+export default dev
