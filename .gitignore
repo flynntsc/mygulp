@@ -1,10 +1,2 @@
 node_modules
-
 dist
-
-src
-src/sass/mygulp.scss
-
-dist/css/mygulp.min.css
-
-dist/css/mygulp.css
