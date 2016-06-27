@@ -1,7 +1,5 @@
-var obj={"name":"咸鱼","age":"24","sex":"男"}
-console.log(Array.from(obj));  //[]
 
-console.log('test2')
+
 
 // Test
 function TestFn() {}
