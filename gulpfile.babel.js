@@ -11,7 +11,7 @@ const browserSync = Bs.create()
 const reload = browserSync.reload
 const Pi = Glp({
     rename: {
-        'gulp-html-replace': 'htmlReplace',
+        // 'gulp-html-replace': 'htmlReplace',
         'gulp-clean-css': 'cleanCss',
     }
 })
@@ -39,9 +39,8 @@ const Paths = {
 }
 
 // Fn
-const clean = () => del(Paths.dest).then(files => console.info(`Delete ${files}`))
+const clean = () => del(Paths.dest).then(files => console.log(`Delete ${files}`))
 export { clean }
-
 
 
 // Views
@@ -97,10 +96,10 @@ export function scripts() {
         .pipe(Pi.plumber())
         .pipe(Pi.sourcemaps.init())
         .pipe(Pi.babel())
-        .pipe(gulp.dest(Paths.scripts.dest))
-        .pipe(Pi.uglify())
+        // .pipe(gulp.dest(Paths.scripts.dest))
+        // .pipe(Pi.uglify())
+        // .pipe(Pi.rename(path => path.basename += '.min'))
         // .pipe(Pi.concat('all.min.js'))
-        .pipe(Pi.rename(path => path.basename += '.min'))
         .pipe(Pi.sourcemaps.write())
         .pipe(gulp.dest(Paths.scripts.dest))
 }
@@ -129,27 +128,32 @@ export function images() {
 export function server(cb) {
     browserSync.init({
         server: {
-            baseDir: './dist/'
+            baseDir: './'
         }
     })
+    cb();
+}
+//
+export function bsReload(cb) {
+    reload();
     cb();
 }
 
 // Watch
 export function watch() {
-    gulp.watch(Paths.views.src, gulp.series(views, reload))
-    gulp.watch(Paths.styles.css, gulp.series(sass))
+    gulp.watch(Paths.views.src, gulp.series(views, bsReload))
+    gulp.watch(Paths.styles.css, sass)
     gulp.watch(Paths.styles.less, less)
     gulp.watch(Paths.styles.sass, sass)
-    gulp.watch(Paths.scripts.src, gulp.series(scripts, reload))
-    gulp.watch(Paths.images.src, gulp.series(images, reload))
+    gulp.watch(Paths.scripts.src, gulp.series(scripts, bsReload))
+    gulp.watch(Paths.images.src, gulp.series(images, bsReload))
 }
 
 // Tasks
 const build = gulp.series(clean, gulp.parallel(views, sass, scripts, images))
 export { build }
 
-const dev = gulp.series(build, server, watch)
+const dev = gulp.parallel(build, server, watch)
 export { dev }
 
 // Default
