@@ -1,5 +1,18 @@
-
-
+var o = (function () {
+    var person = {
+        name: 'vin',
+        age: 24
+    };
+    console.log('1')
+    return {
+    	run(k){
+    		console.log('3')
+    		return person[k]
+    	}
+    };
+})()
+console.log('2')
+console.log(o.run('name'))
 
 // Test
 function TestFn() {}
