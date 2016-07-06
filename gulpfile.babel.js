@@ -75,7 +75,7 @@ export function sass() {
         .pipe(Pi.sass({
             outputStyle: 'expanded',
             // onerror?
-        }))
+        }).on('error', Pi.sass.logError))
         .pipe(Pi.changed(Paths.dest))
         .pipe(Pi.autoprefixer({
             browsers: ['last 2 versions'],
