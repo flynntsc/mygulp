@@ -7,8 +7,10 @@
 - npm init
  - npm init -y 直接新建默认package.json文件
 - npm install/uninstall [-global/-g/--save/-S/-dev/-D]
+ - npm i -f/--force 强制重新安装-可解决node-sass问题
  - npm i/un []
  - npm i name@1.8.2
+ - npm i (package.json.name) VS npm i = 生产 VS 生产+开发
 - npm update
  - npm info/view/v react 超多版本详细信息
  - npm dist-tags ls react 版本更新简洁近况
