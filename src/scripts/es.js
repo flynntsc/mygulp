@@ -1,18 +1,26 @@
-var o = (function () {
-    var person = {
-        name: 'vin',
-        age: 24
-    };
-    console.log('1')
-    return {
-    	run(k){
-    		console.log('3')
-    		return person[k]
-    	}
-    };
-})()
-console.log('2')
-console.log(o.run('name'))
+var aQuery = function (argument) {
+	 return new aQuery.prototype.init()
+}
+
+aQuery.prototype={
+	init(){
+		console.dir(this)
+		return this
+	},
+	getName(){
+		console.log(this.name)
+	}
+}
+
+// aQuery.fn.init.prototype = aQuery.fn
+
+// aQuery.fn.flyn = function (argument) {
+// 	 console.log(this)
+// }
+
+console.dir(aQuery)
+
+
 
 // Test
 function TestFn() {}
