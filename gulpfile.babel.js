@@ -125,18 +125,19 @@ export function images() {
 }
 
 // Server
-export function server(cb) {
+export function server(next) {
     browserSync.init({
         server: {
             baseDir: './'
         }
+        // proxy: '代理域名/IP', // 二选一
     })
-    cb();
+    next();
 }
 //
-export function bsReload(cb) {
+export function bsReload(next) {
     reload();
-    cb();
+    next();
 }
 
 // Watch
