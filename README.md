@@ -1,23 +1,23 @@
 # NPM
 
-- npm cmd [option]
-- npm -h
- - npm help cmd 查看某个命令详细介绍，如npm help install/update...
- - npm cmd -h 快速查看可搭配属性
-- npm init
- - npm init -y 直接新建默认package.json文件
-- npm install/uninstall [-global/-g/--save/-S/-dev/-D]
- - npm i -f/--force 强制重新安装-可解决node-sass问题
- - npm i/un []
- - npm i name@1.8.2
- - npm i (package.json.name) VS npm i = 生产 VS 生产+开发
-- npm update
- - npm info/view/v react 超多版本详细信息
- - npm dist-tags ls react 版本更新简洁近况
- - npm outdated 检测当前安装npm包是否有更新
-- npm publish 发布
+- `npm cmd [option]`
+- `npm -h`
+ - `npm help cmd` 查看某个命令详细介绍，如`npm help install/update...`
+ - `npm cmd -h` 快速查看可搭配属性
+- `npm init`
+ - `npm init -y` 直接新建默认package.json文件
+- `npm install/uninstall [-global/-g/--save/-S/-dev/-D]`
+ - `npm i -f/--force` 强制重新安装-可解决node-sass问题
+ - `npm i/un []`
+ - `npm i name@1.8.2`
+ - `npm i mygulp`(package.json.name) VS `npm i` = 生产 VS 生产+开发
+- `npm update`
+ - `npm info/view/v react` 超多版本详细信息
+ - `npm dist-tags ls react` 版本更新简洁近况
+ - `npm outdated` 检测当前安装npm包是否有更新
+- `npm publish` 发布
  - x.y.z 版本号
- - npm version <update_type> 更新版本号
+ - `npm version <update_type>` 更新版本号
 
 ```
 npm version patch => z+1
@@ -25,13 +25,16 @@ npm version minor => y+1 && z=0
 npm version major => x+1 && y=0 && z=0
 ```
 
-- npm list -g --depth=0
+- `npm list -g --depth=0`
 
  - --depth=0 控制路径深度
 
-- **npm dedupe** 整理包依赖
-- ls ~/.npm 查看缓存区
- - npm cache clean 删除
+- `npm dedupe` 整理包依赖
+- `ls ~/.npm` 查看缓存区
+ - `npm cache clean` 删除
+
+- `npm prune`
+ - 会拿出这些 package，并移除那些没有手动加到 package.json 中或没有使用 --save 标志安装的 package
 
 # Links
 
@@ -75,6 +78,7 @@ npm version major => x+1 && y=0 && z=0
 
   - [gulp-htmlmin](https://www.npmjs.com/package/gulp-htmlmin) 压缩
   - [gulp-html-replace](https://www.npmjs.com/package/gulp-html-replace) 标记转化html文件中的css和js
+  - [gulp-html-extend](https://www.npmjs.com/package/gulp-html-extend) 替换标记中的内容或块等
   - [gulp-usemin](https://www.npmjs.com/package/gulp-usemin) 将 HTML 文件中 CSS 和 JS 文件的路径替换为对应的 min 版本（已经合并、压缩过的版本）
 
 - IMG

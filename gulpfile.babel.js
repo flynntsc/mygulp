@@ -56,12 +56,12 @@ export function views() {
 // Less
 export function less() {
     return gulp.src(Paths.styles.less)
+        .pipe(Pi.changed(Paths.dest))
         .pipe(Pi.less())
         .pipe(Pi.autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false,
         }))
-        .pipe(Pi.changed(Paths.dest))
         .pipe(gulp.dest(Paths.styles.dest))
         .pipe(Pi.cleanCss())
         // .pipe(Pi.concat('all.min.css'))
@@ -72,16 +72,15 @@ export function less() {
 // Sass
 export function sass() {
     return gulp.src(Paths.styles.sass)
+        .pipe(Pi.changed(Paths.dest))
         .pipe(Pi.sass({
             outputStyle: 'expanded',
             // onerror?
         }).on('error', Pi.sass.logError))
-        .pipe(Pi.changed(Paths.dest))
         .pipe(Pi.autoprefixer({
             browsers: ['last 2 versions'],
             cascade: false,
         }))
-        .pipe(Pi.changed(Paths.dest))
         .pipe(gulp.dest(Paths.styles.dest))
         .pipe(Pi.cleanCss())
         // .pipe(Pi.concat('all.min.css'))
