@@ -14,7 +14,7 @@
   - [browser-sync](https://www.npmjs.com/package/browser-sync) 静态文件服务器+浏览器自动刷新（[中文网](http://www.browsersync.cn/)）
 
 - 通用
- - [del](https://www.npmjs.com/package/del) 删除文件
+  - [del](https://www.npmjs.com/package/del) 删除文件
   - [gulp-load-plugins](https://www.npmjs.com/package/gulp-load-plugins) 加载管理
   - [gulp-nodemon](https://www.npmjs.com/package/gulp-nodemon) 自动启动/重启node程序
   - [gulp-concat](https://www.npmjs.com/package/gulp-concat) 合并文件
