@@ -26,7 +26,7 @@
 
 - CSS
   - [gulp-sass](https://www.npmjs.com/package/gulp-sass) 编译sass
-  - [gulp-sass](https://www.npmjs.com/package/gulp-less) 编译less
+  - [gulp-less](https://www.npmjs.com/package/gulp-less) 编译less
   - [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) 自动加前缀
   - [gulp-clean-css](https://www.npmjs.com/package/gulp-clean-css) 压缩css
 
